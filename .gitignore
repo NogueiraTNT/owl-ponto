@@ -1,0 +1,26 @@
+# Dependências
+node_modules/
+
+# Arquivo de configuração sensível
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos temporários
+*.tmp
+temp_*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+

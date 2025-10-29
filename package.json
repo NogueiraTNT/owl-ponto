@@ -1,0 +1,22 @@
+{
+  "name": "owl-ponto-etl",
+  "version": "1.0.0",
+  "description": "Script ETL para transferência de arquivos de ponto entre FTP do relógio e servidor Hostinger",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "etl",
+    "ftp",
+    "ponto",
+    "automacao"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "basic-ftp": "^5.0.5",
+    "puppeteer": "^21.6.1"
+  }
+}
