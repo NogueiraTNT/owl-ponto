@@ -4,7 +4,9 @@
   "description": "Script ETL para transferência de arquivos de ponto entre FTP do relógio e servidor Hostinger",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node start.js",
+    "etl": "node index.js",
+    "update": "node update.js"
   },
   "keywords": [
     "etl",

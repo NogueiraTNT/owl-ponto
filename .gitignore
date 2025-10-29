@@ -3,6 +3,7 @@ node_modules/
 
 # Arquivo de configuração sensível
 .env
+.env.backup
 
 # Logs
 *.log

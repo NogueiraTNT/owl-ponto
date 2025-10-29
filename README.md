@@ -2,6 +2,12 @@
 
 Sistema automatizado para transferir arquivos AFD de relógios de ponto (Henry) para servidor Hostinger.
 
+## 🔄 **NOVO**: Sistema com Auto-Atualização
+
+✨ **Todas as lojas se atualizam automaticamente!** Faça uma mudança no GitHub e todas as instalações receberão a atualização na próxima execução (a cada 10 minutos).
+
+📘 **Para instalar em múltiplas lojas**: Veja [INSTALACAO_LOJAS.md](INSTALACAO_LOJAS.md)
+
 ## 🎯 O Que Este Script Faz
 
 1. **Acessa** o relógio de ponto via navegador (http://192.168.15.10)
@@ -17,6 +23,20 @@ Sistema automatizado para transferir arquivos AFD de relógios de ponto (Henry) 
 
 ---
 
+## 🔄 COMO FUNCIONA A AUTO-ATUALIZAÇÃO
+
+A cada execução (a cada 10 minutos), o sistema:
+
+1. 🔍 **Verifica** se há atualizações no GitHub
+2. 📥 **Baixa** as atualizações automaticamente (se houver)
+3. 💾 **Preserva** suas configurações (`.env`)
+4. 📦 **Instala** novas dependências (se necessário)
+5. 🚀 **Executa** o ETL normalmente
+
+**Resultado**: Você atualiza o código → Todas as lojas recebem em até 10 minutos! 🎉
+
+---
+
 ## ⚡ INSTALAÇÃO RÁPIDA (10 minutos)
 
 ### 1️⃣ Instalar Node.js
@@ -25,19 +45,28 @@ Sistema automatizado para transferir arquivos AFD de relógios de ponto (Henry) 
 - Durante instalação: ✅ Marque **"Add to PATH"**
 - Reinicie o computador após instalação
 
-### 2️⃣ Instalar Dependências
+### 2️⃣ Clonar o Repositório
 
 ```bash
-# Navegue até a pasta do projeto
-cd D:\Projetos\owl-ponto
+# Clone o projeto do GitHub
+git clone https://github.com/SEU_USUARIO/owl-ponto.git
 
+# Entre na pasta
+cd owl-ponto
+```
+
+**⚠️ Substitua `SEU_USUARIO`** pelo seu usuário do GitHub!
+
+### 3️⃣ Instalar Dependências
+
+```bash
 # Instale as dependências (vai baixar ~200MB do Puppeteer)
 npm install
 ```
 
 **⏳ Aguarde**: O Puppeteer baixa o Chrome automaticamente (~180MB). É normal demorar alguns minutos.
 
-### 3️⃣ Configurar Credenciais
+### 4️⃣ Configurar Credenciais
 
 1. Renomeie `env.example` para `.env`
 2. Edite o `.env` com suas credenciais:
@@ -58,7 +87,7 @@ HOSTINGER_REMOTE_FOLDER_PATH="/public_html/pontos/"
 MACHINE_ID="LOJA_01"
 ```
 
-### 4️⃣ Testar
+### 5️⃣ Testar
 
 ```bash
 npm start
