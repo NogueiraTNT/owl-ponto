@@ -450,4 +450,4 @@ async function runETL() {
 
 runETL();
 
-// apenas um teste te atualização
+// apenas um teste te atualização 2
