@@ -23,6 +23,30 @@ async function verificarAtualizacoes() {
       return { atualizado: false, motivo: "Não é repositório Git" };
     }
 
+    // Verificar se o remote origin está configurado
+    try {
+      const { stdout: remoteCheck } = await execPromise(
+        "git remote get-url origin"
+      );
+      if (!remoteCheck || remoteCheck.trim() === "") {
+        console.log(
+          "⚠️  Remote 'origin' não configurado. Pulando atualização..."
+        );
+        console.log(
+          "💡 Configure o remote com: git remote add origin <URL_DO_SEU_REPO>\n"
+        );
+        return { atualizado: false, motivo: "Remote não configurado" };
+      }
+    } catch (remoteError) {
+      console.log(
+        "⚠️  Remote 'origin' não configurado. Pulando atualização..."
+      );
+      console.log(
+        "💡 Configure o remote com: git remote add origin <URL_DO_SEU_REPO>\n"
+      );
+      return { atualizado: false, motivo: "Remote não configurado" };
+    }
+
     // Fazer backup do .env antes de atualizar
     if (fs.existsSync(".env")) {
       console.log("💾 Fazendo backup do .env...");
