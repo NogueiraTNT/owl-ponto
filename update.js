@@ -23,26 +23,6 @@ async function verificarAtualizacoes() {
       return { atualizado: false, motivo: "Não é repositório Git" };
     }
 
-    // Buscar atualizações do remoto
-    console.log("📡 Buscando atualizações do servidor...");
-    await execPromise("git fetch origin");
-    console.log("✅ Atualizações verificadas!\n");
-
-    // Verificar se há commits novos
-    console.log("🔍 Verificando se há mudanças...");
-    const { stdout: status } = await execPromise(
-      "git rev-list HEAD...origin/main --count"
-    );
-    const commitsAtras = parseInt(status.trim(), 10);
-
-    if (commitsAtras === 0) {
-      console.log("✅ Já está na versão mais recente!\n");
-      return { atualizado: false, motivo: "Já atualizado" };
-    }
-
-    console.log(`📦 ${commitsAtras} atualização(ões) disponível(eis)!`);
-    console.log("⬇️  Baixando atualizações...\n");
-
     // Fazer backup do .env antes de atualizar
     if (fs.existsSync(".env")) {
       console.log("💾 Fazendo backup do .env...");
@@ -50,10 +30,28 @@ async function verificarAtualizacoes() {
       console.log("✅ Backup criado: .env.backup\n");
     }
 
-    // Aplicar atualizações (git pull)
+    // Buscar e aplicar atualizações (git pull)
+    console.log("📡 Buscando atualizações do servidor...");
     const { stdout: pullOutput } = await execPromise("git pull origin main");
-    console.log("📥 Atualizações aplicadas:");
+    console.log("📥 Resultado:");
     console.log(pullOutput);
+
+    // Verificar se houve atualização
+    if (
+      pullOutput.includes("Already up to date") ||
+      pullOutput.includes("Já atualizado")
+    ) {
+      console.log("\n✅ Já está na versão mais recente!\n");
+
+      // Remover backup se não houve atualização
+      if (fs.existsSync(".env.backup")) {
+        fs.unlinkSync(".env.backup");
+      }
+
+      return { atualizado: false, motivo: "Já atualizado" };
+    }
+
+    console.log("\n📦 Atualizações detectadas e aplicadas!");
 
     // Restaurar .env se foi modificado
     if (fs.existsSync(".env.backup")) {
@@ -77,7 +75,7 @@ async function verificarAtualizacoes() {
     console.log("✅ ATUALIZAÇÃO CONCLUÍDA COM SUCESSO!");
     console.log("========================================\n");
 
-    return { atualizado: true, commits: commitsAtras };
+    return { atualizado: true };
   } catch (error) {
     console.error("\n========================================");
     console.error("⚠️  ERRO AO VERIFICAR ATUALIZAÇÕES");

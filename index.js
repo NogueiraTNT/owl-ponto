@@ -181,17 +181,34 @@ async function baixarAFDDoRelogio() {
       await page.waitForTimeout(2000); // Aguardar a aba mudar
 
       // ===== PASSO 3: Preencher datas =====
-      console.log("\n📄 PASSO 3: Preenchendo datas...");
+      console.log("\n📄 PASSO 3: Preenchendo datas (últimas 24 horas)...");
 
-      // Obter data de hoje no formato DD/MM/YY HH:MM
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, "0");
-      const month = String(now.getMonth() + 1).padStart(2, "0");
-      const year = String(now.getFullYear()).substring(2); // Últimos 2 dígitos
+      // Calcular período de 24 horas baseado no horário atual
+      // Se executado às 2:30 → puxar de 2:31 do dia anterior até 2:29 de hoje
+      const agora = new Date();
 
-      const dataInicial = `${day}/${month}/${year} 00:00`;
-      const dataFinal = `${day}/${month}/${year} 23:59`;
+      // Data/Hora Final: 1 minuto antes do horário atual
+      const dataHoraFinal = new Date(agora.getTime() - 60000); // -1 minuto
 
+      // Data/Hora Inicial: 24 horas antes da final + 1 minuto
+      const dataHoraInicial = new Date(
+        dataHoraFinal.getTime() - 24 * 60 * 60 * 1000 + 60000
+      ); // -24h +1min
+
+      // Formatar para DD/MM/YY HH:MM
+      const formatarData = (data) => {
+        const dia = String(data.getDate()).padStart(2, "0");
+        const mes = String(data.getMonth() + 1).padStart(2, "0");
+        const ano = String(data.getFullYear()).substring(2);
+        const hora = String(data.getHours()).padStart(2, "0");
+        const minuto = String(data.getMinutes()).padStart(2, "0");
+        return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+      };
+
+      const dataInicial = formatarData(dataHoraInicial);
+      const dataFinal = formatarData(dataHoraFinal);
+
+      console.log(`  ⏰ Horário de execução: ${formatarData(agora)}`);
       console.log(`  📅 Data Inicial: ${dataInicial}`);
       console.log(`  📅 Data Final: ${dataFinal}`);
 
