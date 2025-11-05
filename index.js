@@ -447,4 +447,7 @@ async function runETL() {
 }
 
 // Executar
+
 runETL();
+
+// apenas um teste te atualização
